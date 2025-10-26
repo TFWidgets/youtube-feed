@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📺 YouTube Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8fafc;
+            min-height: 100vh;
+            color: #334155;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #1e293b;
+        }
+        
+        .header h1 {
+            margin: 0 0 15px 0;
+            font-size: 3.2em;
+            font-weight: 800;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: #64748b;
+        }
+        
+        .demo-section {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            color: #1a202c;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .demo-section h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .style-info {
+            background: #f0f4f8;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 11px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            border: 2px solid #4a5568;
+            cursor: pointer;
+            user-select: all;
+            transition: all 0.3s ease;
+        }
+        
+        .code-example:hover {
+            border-color: #FF0000;
+            box-shadow: 0 0 20px rgba(255,0,0,0.3);
+        }
+        
+        .widget-container {
+            padding: 0;
+            background: none;
+            border-radius: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .demo-section { padding: 25px; margin-bottom: 36px; }
+            .header h1 { font-size: 2.4em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📺 YouTube Widget</h1>
+        <p>Специализированный виджет для YouTube видео с современным дизайном</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>📺 YouTube Feed Demo</h2>
+        
+        <div class="style-info">
+            <strong>Описание:</strong> Специализированный виджет для YouTube видео<br>
+            <strong>Особенности:</strong> YouTube-красный дизайн, превью видео, кнопка Play, метрики просмотров, статистика канала
+        </div>
+        
+        <div class="code-example" onclick="copyCode(this)">
+&lt;script src="<span class="embed-url">LOADING...</span>/embed.js" data-id="demo"&gt;&lt;/script&gt;
+        </div>
+        
+        <div class="widget-container">
+            <script src="./embed.js" data-id="demo"></script>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 Локальный конфиг</h2>
+        
+        <div class="style-info">
+            <strong>Описание:</strong> Встроенная JSON конфигурация без внешних запросов<br>
+            <strong>Особенности:</strong> Кастомная тема, встроенный конфиг, приватность
+        </div>
+        
+        <div class="widget-container">
+            <script id="youtube-local-config" type="application/json">
+            {
+              "widgetTitle": "Gaming Channel 🎮",
+              "widgetDescription": "Latest gaming highlights and reviews",
+              "channelStats": {
+                "subscribers": "1.2K",
+                "likes": "45.6K",
+                "videos": "156"
+              },
+              "maxPosts": 4,
+              "showMedia": true,
+              "customPosts": [
+                {
+                  "id": "custom_gaming_1",
+                  "title": "Epic Gaming Montage 2024",
+                  "description": "Best gaming moments from this year! Don't miss out!",
+                  "author": "@MyGamingChannel",
+                  "thumbnailUrl": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "timestamp": "2024-01-20T10:30:00Z",
+                  "views": 25000,
+                  "likes": 1200,
+                  "comments": 89
+                }
+              ],
+              "style": {
+                "colors": {
+                  "background": "#ffffff",
+                  "logoBg": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                },
+                "sizes": { "cardWidth": 320 }
+              }
+            }
+            </script>
+            <script src="./embed.js" data-id="local"></script>
+        </div>
+    </div>
+
+    <script>
+        const currentDomain = window.location.origin;
+        document.querySelectorAll('.embed-url').forEach(span => {
+            span.textContent = currentDomain;
+        });
+        
+        function copyCode(element) {
+            const text = element.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = element.innerHTML;
+                element.style.borderColor = '#FF0000';
+                element.innerHTML = '✅ СКОПИРОВАНО!';
+                
+                setTimeout(() => {
+                    element.style.borderColor = '#4a5568';
+                    element.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+        
+        console.log('📺 YouTube Widget - Готово к использованию');
+    </script>
+</body>
+</html>
 
