@@ -796,6 +796,20 @@
                 this.value = generateRandomId();
             }
         });
+
+        // Генерация случайного ID
+        function generateRandomId() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substring(2, 7);
+            return `widget-${timestamp}-${random}`;
+        }
+
+        // Кнопка для генерации случайного ID
+        document.getElementById('configId').addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = generateRandomId();
+            }
+        });
     </script>
 </body>
 </html>
