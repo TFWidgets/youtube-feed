@@ -687,15 +687,31 @@
         const feeds = generateYouTubeFeeds(config);
         const cards = feeds.slice(0, config.maxPosts || 6).map(feed => createCard(feed, config)).join('');
 
-        // Статистика канала
-        const statsHtml = config.showChannelStats !== false ? `
-            <div class="bhw-stats">
-                <span class="bhw-stat-chip">${escapeHtml(config.channelStats?.subscribers || '—')} Followers</span>
-                <span class="bhw-stat-chip">${escapeHtml(config.channelStats?.likes || '—')} Likes</span>
-                <span class="bhw-stat-chip">${escapeHtml(config.channelStats?.videos || String(feeds.length))} Videos</span>
-                ${config.channelUrl ? `<a class="bhw-follow-btn" href="${escapeAttr(config.channelUrl)}" target="_blank" rel="noopener">Subscribe</a>` : ''}
-            </div>
-        ` : '';
+        // Статистика канала - показываем только если есть реальные данные
+        let statsHtml = '';
+        if (config.showChannelStats !== false) {
+            const subscribers = config.channelStats?.subscribers;
+            const likes = config.channelStats?.likes;
+            const videos = config.channelStats?.videos;
+            
+            // Проверяем, есть ли хотя бы одно значение (не null, не "—", не "0", не пустая строка)
+            const hasValidStats = (
+                (subscribers && subscribers !== '—' && subscribers !== '0' && subscribers.trim() !== '') ||
+                (likes && likes !== '—' && likes !== '0' && likes.trim() !== '') ||
+                (videos && videos !== '—' && videos !== '0' && videos.trim() !== '')
+            );
+            
+            if (hasValidStats || config.channelUrl) {
+                statsHtml = `
+                    <div class="bhw-stats">
+                        ${(subscribers && subscribers !== '—' && subscribers !== '0' && subscribers.trim() !== '') ? `<span class="bhw-stat-chip">${escapeHtml(subscribers)} Followers</span>` : ''}
+                        ${(likes && likes !== '—' && likes !== '0' && likes.trim() !== '') ? `<span class="bhw-stat-chip">${escapeHtml(likes)} Likes</span>` : ''}
+                        ${(videos && videos !== '—' && videos !== '0' && videos.trim() !== '') ? `<span class="bhw-stat-chip">${escapeHtml(videos)} Videos</span>` : ''}
+                        ${config.channelUrl ? `<a class="bhw-follow-btn" href="${escapeAttr(config.channelUrl)}" target="_blank" rel="noopener">Subscribe</a>` : ''}
+                    </div>
+                `;
+            }
+        }
 
         container.innerHTML = `
             <div class="bhw-widget">
