@@ -522,8 +522,28 @@
             }
         }
 
+        // Сначала пытаемся загрузить через API (из KV)
+        try {
+            const apiUrl = `${baseUrl}api/get-config?id=${encodeURIComponent(clientId)}`;
+            console.log(`[YouTubeWidget] 🌐 Загружаем конфиг через API: ${apiUrl}`);
+            
+            const apiResponse = await fetch(apiUrl, { 
+                cache: 'no-store',
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (apiResponse.ok) {
+                const config = await apiResponse.json();
+                console.log(`[YouTubeWidget] ✅ Конфиг загружен через API`);
+                return config;
+            }
+        } catch (apiError) {
+            console.warn('[YouTubeWidget] API недоступен, пробуем загрузить из файла');
+        }
+
+        // Если API не сработал, загружаем из статического файла
         const configUrl = `${baseUrl}configs/${encodeURIComponent(clientId)}.json?v=${Date.now()}`;
-        console.log(`[YouTubeWidget] 🌐 Загружаем конфиг: ${configUrl}`);
+        console.log(`[YouTubeWidget] 🌐 Загружаем конфиг из файла: ${configUrl}`);
         
         const response = await fetch(configUrl, { 
             cache: 'no-store',
@@ -535,7 +555,7 @@
         }
         
         const config = await response.json();
-        console.log(`[YouTubeWidget] ✅ Серверный конфиг загружен`);
+        console.log(`[YouTubeWidget] ✅ Серверный конфиг загружен из файла`);
         return config;
     }
 
