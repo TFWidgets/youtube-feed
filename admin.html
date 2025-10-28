@@ -593,7 +593,7 @@
                 
                 // Обновляем embed код
                 const configId = document.getElementById('configId').value.trim() || 'your-config';
-                const embedCode = `<script src="https://youtube-feed.pages.dev/embed.js" data-id="${configId}"></script>`;
+                const embedCode = '<script src="https://youtube-feed.pages.dev/embed.js" data-id="' + configId + '"><\/script>';
                 const embedCodeEl = document.getElementById('embedCode');
                 if (embedCodeEl) {
                     embedCodeEl.textContent = embedCode;
@@ -737,7 +737,7 @@
                     statusDiv.innerHTML = statusHtml;
                     
                     // Обновляем embed код
-                    const embedCode = `<script src="https://youtube-feed.pages.dev/embed.js" data-id="${configId}"></script>`;
+                    const embedCode = '<script src="https://youtube-feed.pages.dev/embed.js" data-id="' + configId + '"><\/script>';
                     document.getElementById('embedCode').textContent = embedCode;
                 } else {
                     throw new Error(result.error || 'Неизвестная ошибка');
