@@ -388,9 +388,23 @@
                     <input type="number" id="maxPosts" min="1" max="12" value="6">
                 </div>
 
-                <button class="btn btn-primary" onclick="updatePreview()" style="width: 100%; font-size: 16px; padding: 14px;">
+                <button class="btn btn-primary" onclick="updatePreview()" style="width: 100%; font-size: 16px; padding: 14px; margin-bottom: 12px;">
                     🔄 Обновить превью
                 </button>
+
+                <div class="form-group" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+                    <label for="configId">ID конфигурации (для сохранения)</label>
+                    <input type="text" id="configId" placeholder="my-youtube-widget" value="">
+                    <small style="display: block; margin-top: 5px; color: #6b7280; font-size: 12px;">
+                        Используйте только буквы, цифры, дефисы и подчеркивания
+                    </small>
+                </div>
+
+                <button class="btn btn-primary" onclick="saveToGitHub()" style="width: 100%; font-size: 16px; padding: 14px; background: #10b981;">
+                    💾 Сохранить в GitHub
+                </button>
+
+                <div id="saveStatus" style="margin-top: 15px; padding: 12px; border-radius: 8px; display: none;"></div>
             </div>
 
             <!-- Preview Section -->
@@ -597,10 +611,112 @@
             });
         }
 
+        // Сохранение конфигурации в GitHub
+        async function saveToGitHub() {
+            const configId = document.getElementById('configId').value.trim();
+            const statusDiv = document.getElementById('saveStatus');
+            
+            if (!configId) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = '#fee2e2';
+                statusDiv.style.border = '2px solid #ef4444';
+                statusDiv.innerHTML = '❌ Пожалуйста, введите ID конфигурации';
+                return;
+            }
+
+            // Валидация ID
+            const validIdPattern = /^[a-zA-Z0-9_-]+$/;
+            if (!validIdPattern.test(configId)) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = '#fee2e2';
+                statusDiv.style.border = '2px solid #ef4444';
+                statusDiv.innerHTML = '❌ ID может содержать только буквы, цифры, дефисы и подчеркивания';
+                return;
+            }
+
+            const config = generateConfig();
+            
+            // Показываем индикатор загрузки
+            statusDiv.style.display = 'block';
+            statusDiv.style.background = '#dbeafe';
+            statusDiv.style.border = '2px solid #3b82f6';
+            statusDiv.innerHTML = '⏳ Сохранение в GitHub...';
+
+            try {
+                // Сначала пробуем сохранить в GitHub
+                let response = await fetch('https://youtube-feed.pages.dev/api/save-to-github', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        configId: configId,
+                        config: config
+                    })
+                });
+
+                let result = await response.json();
+
+                // Если GitHub не настроен, используем обычный save-config
+                if (!result.success && result.error && result.error.includes('not configured')) {
+                    console.log('GitHub not configured, using fallback API');
+                    response = await fetch('https://youtube-feed.pages.dev/api/save-config', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            configId: configId,
+                            config: config
+                        })
+                    });
+                    result = await response.json();
+                }
+
+                if (result.success) {
+                    statusDiv.style.background = '#d1fae5';
+                    statusDiv.style.border = '2px solid #10b981';
+                    
+                    let statusHtml = `
+                        <strong>✅ Успешно сохранено!</strong><br>
+                        <small style="color: #065f46;">Config ID: <strong>${configId}</strong></small><br>
+                        <small style="color: #065f46; word-break: break-all;">${result.message}</small>
+                    `;
+                    
+                    if (result.githubUrl) {
+                        statusHtml += `<br><a href="${result.githubUrl}" target="_blank" style="color: #059669; text-decoration: underline;">Посмотреть на GitHub</a>`;
+                    }
+                    
+                    statusDiv.innerHTML = statusHtml;
+                    
+                    // Обновляем embed код
+                    const embedCode = `<script src="https://youtube-feed.pages.dev/embed.js" data-id="${configId}"></script>`;
+                    document.getElementById('embedCode').textContent = embedCode;
+                } else {
+                    throw new Error(result.error || 'Неизвестная ошибка');
+                }
+            } catch (error) {
+                statusDiv.style.background = '#fee2e2';
+                statusDiv.style.border = '2px solid #ef4444';
+                statusDiv.innerHTML = `
+                    <strong>❌ Ошибка сохранения</strong><br>
+                    <small style="color: #991b1b;">${error.message}</small><br>
+                    <small style="color: #991b1b;">Примечание: Скопируйте JSON конфигурацию ниже и создайте файл configs/${configId}.json вручную в GitHub.</small>
+                `;
+            }
+        }
+
         // Слушатель для Enter в поле ввода URL
         document.getElementById('newVideoUrl').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addVideoUrl();
+            }
+        });
+
+        // Слушатель для Enter в поле config ID
+        document.getElementById('configId').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveToGitHub();
             }
         });
 
@@ -611,6 +727,20 @@
                 clearTimeout(window.updateTimeout);
                 window.updateTimeout = setTimeout(updatePreview, 500);
             });
+        });
+
+        // Генерация случайного ID
+        function generateRandomId() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substring(2, 7);
+            return `widget-${timestamp}-${random}`;
+        }
+
+        // Кнопка для генерации случайного ID
+        document.getElementById('configId').addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = generateRandomId();
+            }
         });
     </script>
 </body>
