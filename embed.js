@@ -494,6 +494,20 @@
      * Загружает конфигурацию виджета из локального скрипта или сервера
      */
     async function loadConfig(clientId, baseUrl) {
+        // Для админ-панели - загружаем из localStorage
+        if (clientId === 'admin-preview') {
+            try {
+                const storedConfig = localStorage.getItem('admin-preview-config');
+                if (storedConfig) {
+                    const config = JSON.parse(storedConfig);
+                    console.log(`[YouTubeWidget] 📄 Admin preview конфиг загружен из localStorage`);
+                    return config;
+                }
+            } catch (err) {
+                console.warn('[YouTubeWidget] Ошибка загрузки admin config:', err);
+            }
+        }
+
         if (clientId === 'local') {
             const localScript = document.querySelector('#youtube-local-config');
             if (!localScript) {
