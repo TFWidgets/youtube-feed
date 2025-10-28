@@ -1,0 +1,60 @@
+{
+  "widgetTitle": "Golovach",
+  "widgetDescription": "Это описание виджета",
+  "channelStats": {
+    "subscribers": "71",
+    "likes": "0",
+    "videos": "0"
+  },
+  "channelUrl": "https://www.youtube.com/@Golovach_TV",
+  "maxPosts": 4,
+  "showChannelStats": true,
+  "showTimestamp": true,
+  "showMedia": true,
+  "autoFetchMeta": true,
+  "videoUrls": [
+    "https://www.youtube.com/watch?v=IIQzZeP48RE",
+    "https://www.youtube.com/watch?v=xJ1x7HFzvN0",
+    "https://www.youtube.com/watch?v=J5sRLTlPtzA",
+    "https://www.youtube.com/watch?v=BHACKCNDMW8"
+  ],
+  "style": {
+    "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    "colors": {
+      "background": "#ffffff",
+      "text": "#1a1a1a",
+      "title": "#1a202c",
+      "description": "#4a5568",
+      "author": "#111827",
+      "time": "#6b7280",
+      "content": "#374151",
+      "action": "#6b7280",
+      "cardBg": "#ffffff",
+      "cardBorder": "#e5e7eb",
+      "borderHover": "#d1d5db",
+      "avatarBorder": "#f3f4f6",
+      "actionsBorder": "#f3f4f6",
+      "logoBg": "linear-gradient(135deg, #FF0000 0%, #CC0000 100%)",
+      "accent": "#FF0000",
+      "chipBg": "#f1f5f9",
+      "chipBorder": "#e2e8f0"
+    },
+    "borderRadius": {
+      "widget": 24,
+      "blocks": 16
+    },
+    "sizes": {
+      "fontSize": 1.0,
+      "padding": 32,
+      "blockPadding": 20,
+      "gap": 20,
+      "cardWidth": 340,
+      "cardMinHeight": 380
+    },
+    "shadow": {
+      "widget": "0 8px 32px rgba(0,0,0,0.08)",
+      "card": "0 4px 12px rgba(0,0,0,0.05)",
+      "cardHover": "0 12px 24px rgba(255,0,0,0.15)"
+    }
+  }
+}
