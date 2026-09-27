@@ -10,7 +10,7 @@
  */
 (function () {
     'use strict';
-    var VERSION = '2.0.0';
+    var VERSION = '2.0.1';
     var LOG = '[TFW YouTube]';
     // Где работает живое превью BHWYouTube.render() (конфигуратор на сайте)
     var PREVIEW_DOMAINS = ['tf-widgets.com', '*.tf-widgets.com', '9ac5za-h1.myshopify.com'];
@@ -516,7 +516,7 @@
         function on(t, e, h, o) { if (!t) return; t.addEventListener(e, h, o); cleanups.push(function () { t.removeEventListener(e, h, o); }); }
         on(root, 'click', function (e) {
             var b = e.target.closest('.bhw-vid-btn[data-vid]'); if (!b) return;
-            if (opts.preview) return;             // в конфигураторе видео не запускаем
+            if (opts.preview && /^sample/.test(b.getAttribute('data-vid'))) return;   // заглушки в конфигураторе не запускаем
             openPlayer(b.getAttribute('data-vid'), b.hasAttribute('data-short'), cfg);
         });
         /* слайдер */
