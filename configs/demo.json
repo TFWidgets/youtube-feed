@@ -1,62 +1,49 @@
 {
-  "widgetTitle": "FOR THE LOVE OF GAMING",
-  "widgetDescription": "Latest gaming videos and trailers",
-  "channelStats": {
-    "subscribers": "718",
-    "likes": "338.3K",
-    "videos": "892"
-  },
-  "channelUrl": "https://www.youtube.com/@PlayStation",
-  "maxPosts": 6,
-  "showChannelStats": true,
-  "showTimestamp": true,
-  "showMedia": true,
-  "autoFetchMeta": true,
-  "videoUrls": [
-    "https://www.youtube.com/watch?v=9ix7TUGVYIo",
-    "https://www.youtube.com/watch?v=5PSNL1qE6VY",
-    "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
-    "https://www.youtube.com/watch?v=2Vv-BfVoq4g",
-    "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
-    "https://www.youtube.com/watch?v=ScMzIvxBSi4"
+  "active": true,
+  "domains": [
+    "tf-widgets.com",
+    "*.tf-widgets.com"
   ],
+  "layout": "grid",
+  "source": "channel",
+  "channelId": "UCBR8-60-B28hp2BmDPdntcQ",
+  "channelName": "YouTube",
+  "channelUrl": "https://www.youtube.com/@YouTube",
+  "subscribers": "",
+  "logo": "",
+  "title": "Watch our latest videos",
+  "subtitle": "",
+  "locale": "en",
+  "maxVideos": 6,
+  "hideShorts": true,
+  "showDate": true,
+  "showViews": true,
+  "showSubscribe": true,
+  "playInline": true,
+  "videos": [],
   "style": {
-    "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    "fontFamily": "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+    "transparent": false,
     "colors": {
       "background": "#ffffff",
-      "text": "#1a1a1a",
-      "title": "#1a202c",
-      "description": "#4a5568",
-      "author": "#111827",
-      "time": "#6b7280",
-      "content": "#374151",
-      "action": "#6b7280",
-      "cardBg": "#ffffff",
-      "cardBorder": "#e5e7eb",
-      "borderHover": "#d1d5db",
-      "avatarBorder": "#f3f4f6",
-      "actionsBorder": "#f3f4f6",
-      "logoBg": "linear-gradient(135deg, #FF0000 0%, #CC0000 100%)",
-      "accent": "#FF0000",
-      "chipBg": "#f1f5f9",
-      "chipBorder": "#e2e8f0"
+      "text": "#0f0f0f",
+      "accent": "#ff0033",
+      "accentText": "#ffffff",
+      "widgetBorder": "rgba(15, 15, 15, 0.07)",
+      "line": "rgba(15, 15, 15, 0.12)"
     },
     "borderRadius": {
-      "widget": 24,
-      "blocks": 16
+      "widget": 22,
+      "blocks": 14
     },
     "sizes": {
-      "fontSize": 1.0,
-      "padding": 32,
-      "blockPadding": 20,
-      "gap": 20,
-      "cardWidth": 340,
-      "cardMinHeight": 380
+      "fontSize": 1,
+      "padding": 28,
+      "gap": 18,
+      "width": 1140
     },
     "shadow": {
-      "widget": "0 8px 32px rgba(0,0,0,0.08)",
-      "card": "0 4px 12px rgba(0,0,0,0.05)",
-      "cardHover": "0 12px 24px rgba(255,0,0,0.15)"
+      "widget": "0 24px 60px -28px rgba(0, 0, 0, 0.28)"
     }
   }
 }
